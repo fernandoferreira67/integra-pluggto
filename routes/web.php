@@ -19,6 +19,13 @@ Route::get('/', function () {
 });
 
 
+
+Route::get('/teste', function () {
+  return view('teste');
+});
+
+
+
 Route::get('/product',  [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
 Route::post('/product',  [App\Http\Controllers\ProductController::class, 'index'])->name('products.index.search');
 Route::get('/readApi',  [App\Http\Controllers\ProductController::class, 'readApi'])->name('products.readApi');

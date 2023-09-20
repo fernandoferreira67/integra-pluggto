@@ -44,7 +44,7 @@ class ProductController extends Controller
         return view('products.index', ['data' => $products, 'gvm' => $gvm, 'integration'=> $integration]);
       }
 
-      $products = $this->product::where('sync_api','OK')->get();
+      $products = $this->product::where('sync_api','OK')->paginate(50);
       $integration = $this->product::where('sync_api',null)->get();
       $gvm = $this->product::where('sku_gvm', null)->get();
 
