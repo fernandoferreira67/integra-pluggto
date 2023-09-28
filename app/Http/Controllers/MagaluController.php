@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Imports\MagaluImport;
 use App\Exports\MagaluExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
@@ -27,14 +26,14 @@ class MagaluController extends Controller
   public function index(Request $request)
   {
 
-    $filter['not_search'] =  $this->magalu::where('sync','N')->get();
-    $filter['sync'] =  $this->magalu::where('sync','OK')->get();
-    $filter['not_sync'] =  $this->magalu::whereNull('sync')->orWhere('sync', '')->get();
+    $filter['not_search'] =  count($this->magalu::where('sync','N')->get());
+    $filter['sync'] =  count($this->magalu::where('sync','OK')->get());
+    $filter['waiting'] = count($this->magalu::whereNull('sync')->orWhere('sync', '')->get());
+    $filter['all'] =  count($this->magalu::all());
 
     if($request->search){
-      //dd($request->search);
       $dataset =  $this->magalu::where('sync','N')
-                                 ->Where('external_sku', 'like', '*'.$request->search.'%')
+                                 ->orWhere('external_sku', 'like', '*'.$request->search.'%')
                                  ->orderBy('external_sku', 'asc')
                                  ->get();
 
@@ -72,10 +71,14 @@ class MagaluController extends Controller
   /*
   Gerar correlação dos skus com pluggto
   */
-  public function interconnection()
+  public function interconnection(Request $request)
   {
-    $products =  $this->product->all();
-    $magalu = $this->magalu->all();
+
+    if($request->force){
+      $magalu = $this->magalu::where('sync', 'N')->get();
+      }else{
+        $magalu = $this->magalu->all();
+      }
 
     foreach ($magalu as $i => $value) {
 

@@ -15,8 +15,7 @@ class ShopeeExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection()
     {
-      return Shopee::where('sync', '')->get();
-      //dd(Shopee::where('sync', '')->get());
+      return Shopee::where('sync', 'OK')->get();
     }
 
     public function headings():array {

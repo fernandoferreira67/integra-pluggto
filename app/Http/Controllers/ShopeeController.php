@@ -24,10 +24,26 @@ class ShopeeController extends Controller
       $this->product = $product;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+
+      $filter['not_search'] =  count($this->shopee::where('sync','N')->get());
+      $filter['sync'] =  count($this->shopee::where('sync','OK')->get());
+      $filter['waiting'] = count($this->shopee::whereNull('sync')->orWhere('sync', '')->get());
+      $filter['all'] =  count($this->shopee::all());
+
+      if($request->search){
+        $dataset =  $this->shopee::where('sync','N')
+                                 ->orWhere('pluggto_sku', 'like', '*'.$request->search.'%')
+                                 ->orderBy('pluggto_sku', 'asc')
+                                 ->get();
+
+                                 //dd($dataset);
+
+        return view('sheets.shopee.index', ['data' => $dataset, 'filter' => $filter]);
+      }
+
       $dataset = $this->shopee->all();
-      $filter =  $this->shopee::where('sync','N')->get();
       return view('sheets.shopee.index', ['data' => $dataset, 'filter' => $filter]);
     }
 
@@ -36,7 +52,6 @@ class ShopeeController extends Controller
       $arquivo = $request->file;
 
       if($arquivo) {
-
             Excel::import(new ShopeeImport, $arquivo);
             return redirect()->route('shopee.index');
 
@@ -55,10 +70,13 @@ class ShopeeController extends Controller
     }
 
 
-    public function interconnection()
+    public function interconnection(Request $request)
     {
-        $products =  $this->product->all();
-        $shopee = $this->shopee->all();
+        if($request->force){
+          $shopee = $this->shopee::where('sync', 'N')->get();
+        }else{
+          $shopee = $this->shopee->all();
+        }
 
         foreach ($shopee as $value) {
 
@@ -68,14 +86,16 @@ class ShopeeController extends Controller
 
           if($sku->count()){
 
-            $value->update(["pluggto_sku" => '*'. $sku[0]->sku_pluggto]);
+            $param = [
+              "pluggto_sku" => '*'. $sku[0]->sku_pluggto,
+              "sync"  => 'OK',
+            ];
 
-            Log::notice('[ '.$sku_sheets .' ] SKU Correlacionado: '. $sku[0]->sku_pluggto);
+            $value->update($param);
+            Log::info('SKU Correlacionado DE:'.$sku_sheets .'/ PARA:'. $sku[0]->sku_pluggto);
             continue;
 
             }else{
-              //Log::error('[ '.$value->pluggto_sku.'] SKU Não encontrado');
-                 // $value->update(["sync" => 'N', "pluggto_sku" => $value->pluggto_sku.'/N.E' ]);
               Log::error($value->pluggto_sku);
               $value->update(["sync" => 'N']);
               continue;
@@ -85,13 +105,12 @@ class ShopeeController extends Controller
     }
 
       /*
-      Comparar correlação do sku da magalu com pluggto
+      Comparar correlação do sku da Shopee com pluggto
       return: sku da pluggto
       */
     public function checkSku($sku)
     {
       $result = DB::table('products')->where('sku_gvm', '=', Str::replace('*', '', $sku))->get();
-
       return $result;
     }
 

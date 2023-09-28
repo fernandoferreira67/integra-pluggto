@@ -21,7 +21,7 @@
     <p class="mt-4 text-xs text-center"><i class="mr-1 fa-solid fa-triangle-exclamation"></i>Enviar Arquivos .XLS para database!</p>
   </div>
   <div class="w-1/2 p-4">
-    <p class="mb-2 font-medium text-red-800 uppercase">Instruções:</p>
+    <p class="mb-2 font-medium uppercase text-slate-900-800">Instruções:</p>
       <p >1. Selecione para qual tabela será carregado os dados<p>
         <p>2. Selecione a planilha com os campos desejados<p>
         <p>3. Clique em <strong>ENVIAR</strong></p>
@@ -73,5 +73,5 @@
     </tbody>
   </table>
 </div>
-<div class="my-3">{{ $data->links() }}</div>
+
 @endsection

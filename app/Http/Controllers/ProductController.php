@@ -44,7 +44,10 @@ class ProductController extends Controller
         return view('products.index', ['data' => $products, 'gvm' => $gvm, 'integration'=> $integration]);
       }
 
-      $products = $this->product::where('sync_api','OK')->paginate(50);
+      $products = $this->product::where('sync_api','OK')
+                                  ->orderBy('product_name', 'asc')
+                                  ->get();
+      //->paginate(50);
       $integration = $this->product::where('sync_api',null)->get();
       $gvm = $this->product::where('sku_gvm', null)->get();
 
@@ -115,7 +118,7 @@ class ProductController extends Controller
     {
       $sku_pluggto = $id_gvm.'p';
 
-      $response = Http::withToken('f295d810e9ba9a3a05fa80bb68b9a6d7468a07d2')->get('https://api.plugg.to/skus/'. $sku_pluggto);
+      $response = Http::withToken('59d545eab1cd7a6f1699b7d1169da8d39b6086f4')->get('https://api.plugg.to/skus/'. $sku_pluggto);
 
       $data = json_decode( (string) $response->getBody(), true );
 
