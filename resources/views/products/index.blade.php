@@ -8,7 +8,7 @@
 <div class="flex p-4 my-4 border-2 bg-secondary">
   <div class="flex flex-col w-1/2 py-4">
     <p class="mb-2 font-bold text-center text-blue-700">Importar Produtos</p>
-    <form class="flex flex-col items-center justify-items-center" action="{{ route('products.import')}}" method="post" enctype="multipart/form-data">
+    <form class="flex flex-col items-center justify-items-center" action="{{ route('products_catalog.import')}}" method="post" enctype="multipart/form-data">
       @csrf
       <select class="mb-2 text-sm w-80" name="type">
         <option>Qual Tabela ?</option>

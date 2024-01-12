@@ -8,13 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
-
-//use App\Exports\ProductsExport;
 use App\Imports\ProductImport;
 use App\Imports\GvmImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 
 
@@ -118,11 +116,9 @@ class ProductController extends Controller
     {
       $sku_pluggto = $id_gvm.'p';
 
-      $response = Http::withToken('59d545eab1cd7a6f1699b7d1169da8d39b6086f4')->get('https://api.plugg.to/skus/'. $sku_pluggto);
+      $response = Http::withToken(env('APIKEY_PLUGG'))->get('https://api.plugg.to/skus/'. $sku_pluggto);
 
       $data = json_decode( (string) $response->getBody(), true );
-
-      //dd($data);
 
       if(!isset($data['error'])){
 

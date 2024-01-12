@@ -40,6 +40,7 @@
   <span>TOTAL: <strong>{{$filter['all']}}</strong> | SKU SEM CORRELAÇÃO: <strong>{{$filter['not_search']}}</strong> | SKU Sincronizados: <strong> {{$filter['sync']}}</strong> | Aguardando Sincronização: <strong> {{$filter['waiting']}}</strong> </span>
 </div>
 
+
 <div class="my-5 container-auto">
   <table class="table w-full mt-1 space-y-6 text-sm">
     <thead class="text-orange-600 bg-transparent border border-orange-500">
@@ -58,4 +59,5 @@
     </tbody>
   </table>
 </div>
+
 @endsection

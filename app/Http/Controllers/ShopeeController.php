@@ -115,14 +115,19 @@ class ShopeeController extends Controller
     }
 
 
-    public function newDatabase() {
-
+    public function newDatabase()
+    {
       if( count($this->shopee->all()) > 1) {
           $this->shopee->query()->delete();
           return redirect()->route('shopee.index');
       }
 
       return redirect()->route('shopee.index');
-  }
+    }
+
+    public function edit($id)
+    {
+
+    }
 
 }

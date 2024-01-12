@@ -25,6 +25,12 @@ Route::get('/teste', function () {
 });
 
 
+Route::get('/catalog/product',  [App\Http\Controllers\CatalogController::class, 'index'])->name('products_catalog.index');
+Route::post('/catalog/product/import',  [App\Http\Controllers\CatalogController::class, 'import'])->name('products_catalog.import');
+Route::get('/catalog/product/export',  [App\Http\Controllers\CatalogController::class, 'exportAll'])->name('products_catalog.exportAll');
+Route::post('/catalog/product/export',  [App\Http\Controllers\CatalogController::class, 'export'])->name('products_catalog.export');
+Route::get('/catalog/product/{id}/edit',  [App\Http\Controllers\CatalogController::class, 'show'])->name('products_catalog.show');
+
 
 Route::get('/product',  [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
 Route::post('/product',  [App\Http\Controllers\ProductController::class, 'index'])->name('products.index.search');
@@ -48,6 +54,9 @@ Route::get('/shopee/export',  [App\Http\Controllers\ShopeeController::class, 'ex
 Route::get('/shopee/interconnection',  [App\Http\Controllers\ShopeeController::class, 'interconnection'])->name('shopee.interconnection');
 Route::get('/shopee/newdatabase/',  [App\Http\Controllers\ShopeeController::class, 'newDatabase'])->name('shopee.newDatabase');
 Route::post('/shopee/force',  [App\Http\Controllers\ShopeeController::class, 'interconnection'])->name('shopee.force.sync');
+//CRUD
+//Route::get('/shopee/{id}/edit',  [App\Http\Controllers\Admin\ShopeeController::class, 'edit'])->name('shopee.edit');
+
 
 Route::get('/olist',  [App\Http\Controllers\OlistController::class, 'index'])->name('olist.index');
 Route::post('/olist',  [App\Http\Controllers\OlistController::class, 'index'])->name('olist.index.search');
