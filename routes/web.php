@@ -73,3 +73,11 @@ Route::post('/b2w/export',  [App\Http\Controllers\B2WController::class, 'export'
 Route::get('/b2w/interconnection',  [App\Http\Controllers\B2WController::class, 'interconnection'])->name('b2w.interconnection');
 Route::get('/b2w/newdatabase/',  [App\Http\Controllers\B2WController::class, 'newDatabase'])->name('b2w.newDatabase');
 Route::post('/b2w/force',  [App\Http\Controllers\B2WController::class, 'interconnection'])->name('b2w.force.sync');
+
+Route::get('/shein',  [App\Http\Controllers\SheinController::class, 'index'])->name('shein.index');
+Route::post('/shein',  [App\Http\Controllers\SheinController::class, 'index'])->name('shein.index.search');
+Route::post('/shein/import',  [App\Http\Controllers\SheinController::class, 'import'])->name('shein.import');
+Route::get('/shein/export',  [App\Http\Controllers\SheinController::class, 'export'])->name('shein.export');
+Route::get('/shein/interconnection',  [App\Http\Controllers\SheinController::class, 'interconnection'])->name('shein.interconnection');
+Route::get('/shein/newdatabase/',  [App\Http\Controllers\SheinController::class, 'newDatabase'])->name('shein.newDatabase');
+Route::post('/shein/force',  [App\Http\Controllers\SheinController::class, 'interconnection'])->name('shein.force.sync');
