@@ -8,7 +8,7 @@
 <div class="flex p-4 my-4 border-2 bg-secondary">
   <div class="flex flex-col w-1/2 py-4">
     <p class="mb-2 font-bold text-center text-blue-700">Importar Produtos</p>
-    <form class="flex flex-col items-center justify-items-center" action="{{ route('products.import')}}" method="post" enctype="multipart/form-data">
+    <form class="flex flex-col items-center justify-items-center" action="{{ route('products_catalog.import')}}" method="post" enctype="multipart/form-data">
       @csrf
       <select class="mb-2 text-sm w-80" name="type">
         <option>Qual Tabela ?</option>
@@ -21,7 +21,7 @@
     <p class="mt-4 text-xs text-center"><i class="mr-1 fa-solid fa-triangle-exclamation"></i>Enviar Arquivos .XLS para database!</p>
   </div>
   <div class="w-1/2 p-4">
-    <p class="mb-2 font-medium text-red-800 uppercase">Instruções:</p>
+    <p class="mb-2 font-medium uppercase text-slate-900-800">Instruções:</p>
       <p >1. Selecione para qual tabela será carregado os dados<p>
         <p>2. Selecione a planilha com os campos desejados<p>
         <p>3. Clique em <strong>ENVIAR</strong></p>
@@ -73,5 +73,5 @@
     </tbody>
   </table>
 </div>
-<div class="my-3">{{ $data->links() }}</div>
+
 @endsection

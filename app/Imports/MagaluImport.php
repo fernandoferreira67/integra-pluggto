@@ -6,6 +6,7 @@ use App\Models\Magalu;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class MagaluImport implements ToModel,WithHeadingRow
 {
@@ -16,7 +17,7 @@ class MagaluImport implements ToModel,WithHeadingRow
     */
     public function model(array $row)
     {
-      Log::info('SKU:'. $row['pluggto_sku']);
+      Log::info('SKU:'. $row['external_sku']);
         return new Magalu([
             'pluggto_sku'          => $row['pluggto_sku'],
             'pluggto_parent_sku'   => $row['pluggto_parent_sku'],

@@ -8,13 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
-
-//use App\Exports\ProductsExport;
 use App\Imports\ProductImport;
 use App\Imports\GvmImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 
 
@@ -44,7 +42,10 @@ class ProductController extends Controller
         return view('products.index', ['data' => $products, 'gvm' => $gvm, 'integration'=> $integration]);
       }
 
-      $products = $this->product::where('sync_api','OK')->paginate(50);
+      $products = $this->product::where('sync_api','OK')
+                                  ->orderBy('product_name', 'asc')
+                                  ->get();
+      //->paginate(50);
       $integration = $this->product::where('sync_api',null)->get();
       $gvm = $this->product::where('sku_gvm', null)->get();
 
@@ -115,11 +116,9 @@ class ProductController extends Controller
     {
       $sku_pluggto = $id_gvm.'p';
 
-      $response = Http::withToken('f295d810e9ba9a3a05fa80bb68b9a6d7468a07d2')->get('https://api.plugg.to/skus/'. $sku_pluggto);
+      $response = Http::withToken(env('APIKEY_PLUGG'))->get('https://api.plugg.to/skus/'. $sku_pluggto);
 
       $data = json_decode( (string) $response->getBody(), true );
-
-      //dd($data);
 
       if(!isset($data['error'])){
 
